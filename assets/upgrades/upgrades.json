@@ -1,0 +1,120 @@
+
+[
+  {
+    "id": "upgrade-001",
+    "name": "Маневровые двигатели",
+    "description": {
+      "ru": "Дополнительные микро-сопла на крыльях, увеличивающие скорость поворота глайдера.",
+      "en": "Additional micro-thrusters on the wings that increase the glider's rotation speed."
+    },
+    "effect": {
+      "parameter": "rotation_speed",
+      "multiplier": 1.15
+    },
+    "cost": 750
+  },
+  {
+    "id": "upgrade-002",
+    "name": "Аэродинамическая рама",
+    "description": {
+      "ru": "Облегченный композитный корпус, который снижает сопротивление воздуха и позволяет дольше сохранять скорость.",
+      "en": "A lightweight composite frame that reduces air drag and allows for maintaining speed longer."
+    },
+    "effect": {
+      "parameter": "drag",
+      "multiplier": 0.99
+    },
+    "cost": 1200
+  },
+  {
+    "id": "upgrade-003",
+    "name": "Стабилизирующие кили",
+    "description": {
+      "ru": "Улучшенные стабилизаторы, которые гасят боковое скольжение в крутых виражах.",
+      "en": "Enhanced stabilizers that dampen sideways drift during sharp turns."
+    },
+    "effect": {
+      "parameter": "stabilization",
+      "multiplier": 1.25
+    },
+    "cost": 1800
+  },
+  {
+    "id": "upgrade-004",
+    "name": "Перегруженный конденсатор",
+    "description": {
+      "ru": "Позволяет накапливать больше энергии для импульсного ускорителя, значительно увеличивая его мощность.",
+      "en": "Allows for storing more energy for the boost impulse, significantly increasing its power."
+    },
+    "effect": {
+      "parameter": "boost_impulse",
+      "multiplier": 1.2
+    },
+    "cost": 2500
+  },
+  {
+    "id": "upgrade-005",
+    "name": "Быстроциклический радиатор",
+    "description": {
+      "ru": "Новая система охлаждения, которая значительно сокращает время перезарядки импульсного ускорителя.",
+      "en": "A new cooling system that significantly reduces the boost impulse cooldown time."
+    },
+    "effect": {
+      "parameter": "cooldown",
+      "multiplier": 0.8
+    },
+    "cost": 3500
+  },
+  {
+    "id": "upgrade-006",
+    "name": "Улучшенный гироскоп",
+    "description": {
+      "ru": "Высокоточный гироскоп, обеспечивающий непревзойденную отзывчивость и маневренность.",
+      "en": "A high-precision gyroscope that provides unparalleled responsiveness and maneuverability."
+    },
+    "effect": {
+      "parameter": "rotation_speed",
+      "multiplier": 1.3
+    },
+    "cost": 5000
+  },
+  {
+    "id": "upgrade-007",
+    "name": "Усиленные крылья",
+    "description": {
+      "ru": "Повышает устойчивость глайдера в полете, улучшая общую стабильность.",
+      "en": "Increases the glider's flight stability, improving overall handling."
+    },
+    "effect": {
+      "parameter": "stabilization",
+      "multiplier": 1.1
+    },
+    "cost": 200
+  },
+  {
+    "id": "upgrade-008",
+    "name": "Турбо-двигатель",
+    "description": {
+      "ru": "Базовая модификация турбины, обеспечивающая небольшой прирост к мощности импульсного ускорителя.",
+      "en": "A basic turbine modification that provides a small increase to the boost impulse power."
+    },
+    "effect": {
+      "parameter": "boost_impulse",
+      "multiplier": 1.05
+    },
+    "cost": 300
+  },
+  {
+    "id": "upgrade-009",
+    "name": "Энерго-ядро",
+    "description": {
+      "ru": "Оптимизированное ядро, которое ускоряет перезарядку систем, сокращая время восстановления ускорителя.",
+      "en": "An optimized core that speeds up system recharging, reducing the boost cooldown."
+    },
+    "effect": {
+      "parameter": "cooldown",
+      "multiplier": 0.95
+    },
+    "cost": 250
+  }
+]

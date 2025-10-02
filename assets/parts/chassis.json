@@ -1,0 +1,52 @@
+[
+  {
+    "id": "chassis-light",
+    "name": "Легкое шасси 'Игла'",
+    "description": "Минималистичная рама для максимальной скорости и маневренности. Жертвует прочностью.",
+    "cost": 0,
+    "baseHealth": 80,
+    "baseEnergy": 90,
+    "gadgetSlots": 1,
+    "dragModifier": 0.98
+  },
+  {
+    "id": "chassis-medium",
+    "name": "Среднее шасси 'Бастион'",
+    "description": "Сбалансированная конструкция, предлагающая хороший компромисс между защитой и скоростью.",
+    "cost": 1000,
+    "baseHealth": 100,
+    "baseEnergy": 100,
+    "gadgetSlots": 2,
+    "dragModifier": 1.0
+  },
+  {
+    "id": "chassis-heavy",
+    "name": "Тяжелое шасси 'Левиафан'",
+    "description": "Усиленная рама с дополнительной броней. Медлительная, но невероятно прочная.",
+    "cost": 2500,
+    "baseHealth": 150,
+    "baseEnergy": 110,
+    "gadgetSlots": 3,
+    "dragModifier": 1.05
+  },
+  {
+    "id": "chassis-stealth",
+    "name": "Стелс-шасси 'Фантом'",
+    "description": "Рама, поглощающая радарные сигналы. Снижает заметность, но крайне хрупкая.",
+    "cost": 3000,
+    "baseHealth": 60,
+    "baseEnergy": 120,
+    "gadgetSlots": 2,
+    "dragModifier": 0.96
+  },
+  {
+    "id": "chassis-advanced",
+    "name": "Улучшенное шасси 'Авангард'",
+    "description": "Усовершенствованная версия 'Бастиона' с улучшенными показателями прочности и энергоэффективности.",
+    "cost": 3500,
+    "baseHealth": 120,
+    "baseEnergy": 115,
+    "gadgetSlots": 2,
+    "dragModifier": 0.99
+  }
+]

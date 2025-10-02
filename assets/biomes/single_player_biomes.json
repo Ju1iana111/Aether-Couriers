@@ -1,0 +1,35 @@
+[
+  {
+    "id": "biome-sp-001",
+    "name": "Расколотые острова",
+    "difficulty": 1,
+    "hazards": ["Сильный ветер", "Патрули контрабандистов"],
+    "reward": { "currency": 500, "exp": 1000 },
+    "description": {
+      "ru": "Архипелаг парящих островов, пронизанный непредсказуемыми воздушными потоками. Идеальное место для оттачивания маневров и уклонения от редких патрулей контрабандистов.",
+      "en": "An archipelago of floating islands pierced by unpredictable air currents. An ideal place to hone maneuvering skills and evade sparse smuggler patrols."
+    }
+  },
+  {
+    "id": "biome-sp-002",
+    "name": "Ядро Мальстрёма",
+    "difficulty": 5,
+    "hazards": ["Грозовые облака", "Электрические аномалии", "Гравитационные колодцы"],
+    "reward": { "currency": 2500, "exp": 5000 },
+    "description": {
+      "ru": "Вечный шторм в сердце мира, где небо разрывают молнии. Пилотам предстоит лавировать между гравитационными ловушками и электрическими разрядами. Опасно, но невероятно прибыльно.",
+      "en": "A perpetual storm at the heart of the world, where the sky is torn by lightning. Pilots must navigate between gravity traps and electrical discharges. Dangerous, but incredibly profitable."
+    }
+  },
+  {
+    "id": "biome-sp-003",
+    "name": "Дрейф в Пустоте",
+    "difficulty": 10,
+    "hazards": ["Нулевая гравитация", "Кристаллические астероиды", "Древние стражи"],
+    "reward": { "currency": 10000, "exp": 15000 },
+    "description": {
+      "ru": "Край известного мира — холодное, безмолвное пространство, усеянное кристаллическими астероидами и руинами древней цивилизации, охраняемыми бездушными стражами. Только для асов.",
+      "en": "The edge of the known world—a cold, silent space dotted with crystalline asteroids and ruins of an ancient civilization, guarded by soulless sentinels. For aces only."
+    }
+  }
+]

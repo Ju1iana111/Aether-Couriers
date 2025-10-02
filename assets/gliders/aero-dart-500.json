@@ -1,0 +1,29 @@
+{
+  "name": "Aero-Dart 500",
+  "wings": {
+    "area": 1.25,
+    "stiffness": 0.88
+  },
+  "thrusters": [
+    {
+      "slot": "aft",
+      "impulse": 3.5,
+      "cooldown": 2.1
+    },
+    {
+      "slot": "left",
+      "impulse": 1.8,
+      "cooldown": 3.5
+    },
+    {
+      "slot": "right",
+      "impulse": 1.8,
+      "cooldown": 3.5
+    }
+  ],
+  "gadgets": [
+    "shield",
+    "grapple",
+    "microjet"
+  ]
+}

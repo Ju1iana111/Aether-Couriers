@@ -1,0 +1,47 @@
+[
+  {
+    "id": "engine-basic",
+    "name": "Базовый двигатель",
+    "description": "Стандартная силовая установка. Надежна, но без изысков.",
+    "cost": 0,
+    "thrustModifier": 1.0,
+    "boostImpulseModifier": 1.0,
+    "energyRegenModifier": 1.0
+  },
+  {
+    "id": "engine-high-thrust",
+    "name": "Форсированный двигатель",
+    "description": "Увеличивает мощность основной тяги для быстрого набора скорости.",
+    "cost": 1500,
+    "thrustModifier": 1.2,
+    "boostImpulseModifier": 1.0,
+    "energyRegenModifier": 0.9
+  },
+  {
+    "id": "engine-overcharged",
+    "name": "Перегруженное ядро",
+    "description": "Экспериментальная модель, которая значительно ускоряет регенерацию энергии.",
+    "cost": 2000,
+    "thrustModifier": 0.9,
+    "boostImpulseModifier": 1.1,
+    "energyRegenModifier": 1.5
+  },
+  {
+    "id": "engine-hyperdrive",
+    "name": "Двигатель 'Гипердрайв'",
+    "description": "Система, фокусирующая всю мощность на импульсном ускорителе. Основная тяга значительно снижена.",
+    "cost": 3200,
+    "thrustModifier": 0.7,
+    "boostImpulseModifier": 1.5,
+    "energyRegenModifier": 1.0
+  },
+  {
+    "id": "engine-silent-run",
+    "name": "Двигатель 'Тихий Ход'",
+    "description": "Работает почти бесшумно и крайне эффективно расходует энергию, но не отличается высокой мощностью.",
+    "cost": 2800,
+    "thrustModifier": 0.85,
+    "boostImpulseModifier": 0.9,
+    "energyRegenModifier": 1.3
+  }
+]

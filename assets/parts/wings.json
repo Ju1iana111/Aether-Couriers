@@ -1,0 +1,42 @@
+[
+  {
+    "id": "wings-standard",
+    "name": "Стандартные крылья",
+    "description": "Надежные и предсказуемые. Базовая модель для любых задач.",
+    "cost": 0,
+    "rotationSpeedModifier": 1.0,
+    "stabilizationModifier": 1.0
+  },
+  {
+    "id": "wings-agile",
+    "name": "Маневренные элероны",
+    "description": "Укороченные крылья с повышенной отзывчивостью для резких поворотов. Снижают стабильность.",
+    "cost": 1200,
+    "rotationSpeedModifier": 1.25,
+    "stabilizationModifier": 0.85
+  },
+  {
+    "id": "wings-stable",
+    "name": "Широкие стабилизаторы",
+    "description": "Длинные крылья, обеспечивающие превосходную стабильность в полете за счет маневренности.",
+    "cost": 1200,
+    "rotationSpeedModifier": 0.8,
+    "stabilizationModifier": 1.3
+  },
+  {
+    "id": "wings-hybrid",
+    "name": "Гибридные крылья 'Чайка'",
+    "description": "Крылья формы 'чайка' обеспечивают отличный баланс между маневренностью в поворотах и стабильностью.",
+    "cost": 2800,
+    "rotationSpeedModifier": 1.15,
+    "stabilizationModifier": 1.15
+  },
+  {
+    "id": "wings-swept",
+    "name": "Стреловидные крылья 'Дротик'",
+    "description": "Острые стреловидные крылья, созданные для максимальной скорости по прямой. Затрудняют резкие маневры.",
+    "cost": 2500,
+    "rotationSpeedModifier": 0.7,
+    "stabilizationModifier": 0.9
+  }
+]

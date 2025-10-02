@@ -1,0 +1,32 @@
+[
+  {
+    "id": "biome-001",
+    "name": "Crystalline Spires",
+    "palette": ["#1e1b4b", "#5b21b6", "#a78bfa"],
+    "hazards": ["энергетические поля", "острые кристаллы"],
+    "description": {
+      "ru": "Вечные шпили из чистого эфира, пронзающие небеса. Их грани переливаются светом звезд, но остры как бритва. Пилотам следует опасаться нестабильных энергетических полей, что пульсируют между кристаллами.",
+      "en": "Eternal spires of pure aether piercing the heavens. Their facets shimmer with starlight but are sharp as razors. Pilots should beware the unstable energy fields that pulse between the crystals."
+    }
+  },
+  {
+    "id": "biome-002",
+    "name": "Volcanic Foundry",
+    "palette": ["#44403c", "#dc2626", "#f97316"],
+    "hazards": ["лавовые потоки", "пепельные облака"],
+    "description": {
+      "ru": "Сердце мира, где рождается сама земля. Реки расплавленного камня текут между парящими обсидиановыми скалами. Густые облака пепла скрывают как опасности, так и редкие сокровища.",
+      "en": "The heart of the world, where the land itself is born. Rivers of molten rock flow between floating obsidian cliffs. Thick ash clouds conceal both dangers and rare treasures."
+    }
+  },
+  {
+    "id": "biome-003",
+    "name": "Overgrown Canopy",
+    "palette": ["#0f172a", "#14532d", "#16a34a"],
+    "hazards": ["ядовитые споры", "хищные лианы"],
+    "description": {
+      "ru": "Бесконечный лес, раскинувшийся на живых, парящих островах. Гигантские деревья сплетают свои кроны, создавая зеленый лабиринт. Воздух здесь густой от ядовитых спор, а древние лианы хватают зазевавшихся путников.",
+      "en": "An endless forest sprawling across living, floating islands. Giant trees weave their canopies together, creating a green labyrinth. The air is thick with poisonous spores, and ancient vines snatch unwary travelers."
+    }
+  }
+]

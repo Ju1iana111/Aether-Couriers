@@ -1,0 +1,95 @@
+[
+  {
+    "id": "ch-01",
+    "name": "Кристальный рейд",
+    "objective": {
+      "ru": "Собери 10 кристаллов за 60 секунд",
+      "en": "Collect 10 crystals in 60 seconds"
+    },
+    "reward": "100 кредитов",
+    "time_limit": 60
+  },
+  {
+    "id": "ch-02",
+    "name": "Прыжок веры",
+    "objective": {
+      "ru": "Достигни портала, не получив урона",
+      "en": "Reach the portal without taking damage"
+    },
+    "reward": "200 кредитов"
+  },
+  {
+    "id": "ch-03",
+    "name": "Гонка со временем",
+    "objective": {
+      "ru": "Заверши уровень 'isle-137' менее чем за 90 секунд",
+      "en": "Complete level 'isle-137' in under 90 seconds"
+    },
+    "reward": "150 кредитов",
+    "time_limit": 90
+  },
+  {
+    "id": "ch-04",
+    "name": "Охотник за головами",
+    "objective": {
+      "ru": "Уничтожь 3 патрульных дрона",
+      "en": "Destroy 3 patrol drones"
+    },
+    "reward": "300 кредитов"
+  },
+  {
+    "id": "ch-05",
+    "name": "Тихий как тень",
+    "objective": {
+      "ru": "Пройди уровень, не будучи замеченным патрулями",
+      "en": "Complete the level without being detected by patrols"
+    },
+    "reward": "250 кредитов"
+  },
+  {
+    "id": "ch-06",
+    "name": "Богатый улов",
+    "objective": {
+      "ru": "Собери все кредитные пикапы на уровне",
+      "en": "Collect all credit pickups on the level"
+    },
+    "reward": "Бонусный опыт"
+  },
+  {
+    "id": "ch-07",
+    "name": "Мастер маневров",
+    "objective": {
+      "ru": "Пролети через 5 узких проходов, не задев стены",
+      "en": "Fly through 5 narrow passages without hitting walls"
+    },
+    "reward": "Редкий косметический предмет"
+  },
+  {
+    "id": "ch-08",
+    "name": "Топливный кризис",
+    "objective": {
+      "ru": "Заверши уровень, используя форсаж не более 3 секунд",
+      "en": "Complete the level using the afterburner for no more than 3 seconds"
+    },
+    "reward": "500 кредитов"
+  },
+  {
+    "id": "ch-09",
+    "name": "Выживший",
+    "objective": {
+      "ru": "Выживи в зоне повышенной опасности в течение 2 минут",
+      "en": "Survive in a high-danger zone for 2 minutes"
+    },
+    "reward": "Уникальный титул пилота",
+    "time_limit": 120
+  },
+  {
+    "id": "ch-10",
+    "name": "Исследователь",
+    "objective": {
+      "ru": "Найди секретную область на уровне 'isle-137'",
+      "en": "Find the secret area on level 'isle-137'"
+    },
+    "reward": "1000 кредитов"
+  }
+]

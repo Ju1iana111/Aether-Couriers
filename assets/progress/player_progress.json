@@ -1,0 +1,36 @@
+
+[
+  {
+    "pilot_level": 1,
+    "experience": 50,
+    "next_level_exp": 1000,
+    "currency": 0,
+    "unlocks": {
+      "gadgets": ["fuel"],
+      "cosmetics": [],
+      "buffs": []
+    }
+  },
+  {
+    "pilot_level": 5,
+    "experience": 5200,
+    "next_level_exp": 6000,
+    "currency": 1500,
+    "unlocks": {
+      "gadgets": ["fuel", "shield"],
+      "cosmetics": ["glider_trail_blue"],
+      "buffs": ["fuel_efficiency_1"]
+    }
+  },
+  {
+    "pilot_level": 10,
+    "experience": 11500,
+    "next_level_exp": 12000,
+    "currency": 8500,
+    "unlocks": {
+      "gadgets": ["fuel", "shield", "microjet", "grapple", "boost"],
+      "cosmetics": ["glider_trail_blue", "decal_skull", "paint_job_gold"],
+      "buffs": ["fuel_efficiency_2", "cooldown_reduction_1", "shield_strength_1"]
+    }
+  }
+]

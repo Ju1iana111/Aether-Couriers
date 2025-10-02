@@ -1,0 +1,7 @@
+{
+  "rotation_speed": 3.5,
+  "stabilization": 0.03,
+  "drag": 0.985,
+  "boost_impulse": 150.0,
+  "cooldown": 2.5
+}

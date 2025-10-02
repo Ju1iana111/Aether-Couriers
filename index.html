@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Couriers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glow: #38bdf8;
+            --background-main: #0a0a1a;
+            --surface-transparent: rgba(15, 23, 42, 0.7);
+            --surface-solid: #1e293b;
+            --border-color: #334155;
+            --text-primary: #e0f2fe;
+            --text-secondary: #9ca3af;
+            --accent-green: #22c55e;
+            --accent-yellow: #facc15;
+            --accent-red: #dc2626;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--background-main);
+            color: var(--text-primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        #game-canvas:focus {
+            outline: 2px solid var(--primary-glow);
+            outline-offset: -2px;
+        }
+
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 10, 26, 0.95);
+            color: #a78bfa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            z-index: 100;
+            flex-direction: column;
+            gap: 20px;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading-screen .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-left-color: #a78bfa;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        #damage-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,0,0,0) 60%, rgba(185,28,28,0.5) 100%);
+            z-index: 40;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        #damage-overlay.active {
+            opacity: 1;
+        }
+
+        #hud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Top Bar */
+        .hud-top-bar {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--surface-transparent);
+            border: 1px solid var(--primary-glow);
+            border-radius: 8px;
+            padding: 8px 15px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .hud-stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hud-stat .label {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .hud-stat .value {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .pilot-level-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #pilot-level {
+            background: var(--primary-glow);
+            color: #0c4a6e;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 1.1em;
+            margin: -8px 0 6px;
+        }
+        
+        #exp-bar-container {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--surface-solid);
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        #exp-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-yellow);
+            transition: width 0.3s ease;
+        }
+
+        #game-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--surface-transparent);
+            border: 1px solid var(--primary-glow);
+            color: var(--text-primary);
+            font-family: 'Orbitron', sans-serif;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            pointer-events: all;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn svg {
+            width: 1.2em;
+            height: 1.2em;
+            fill: currentColor;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: var(--primary-glow);
+            color: var(--background-main);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+        }
+
+        .control-btn:disabled {
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            background: #334155;
+        }
+
+        .energy-bar-container, .health-bar-container {
+            width: 120px;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .energy-bar-container { background: #1e293b; }
+        .health-bar-container { background: #450a0a; }
+
+
+        #energy-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #86efac);
+            transition: width 0.3s ease;
+        }
+        
+        #health-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-red), #f87171);
+            transition: width 0.3s ease;
+        }
+        
+        /* Gadget display in top bar */
+        #hud-gadgets {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .gadget-display {
+            background: var(--surface-transparent);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .gadget-display .key {
+            font-size: 1.1em;
+            color: var(--primary-glow);
+        }
+        .gadget-display .cooldown-text {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            height: 1em; /* Reserve space */
+        }
+        .gadget-display.on-cooldown {
+            background: #334155;
+            border-color: #4b5563;
+        }
+        .gadget-display.on-cooldown .key {
+            color: var(--text-secondary);
+        }
+        .gadget-display.on-cooldown .cooldown-text {
+            color: var(--text-primary);
+        }
+
+        /* Active Buffs Display */
+        #hud-buffs {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            transition: opacity 0.3s;
+        }
+        .buff-display {
+            background: var(--surface-transparent);
+            border: 1px solid var(--primary-glow);
+            border-radius: 6px;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            min-width: 60px;
+            justify-content: center;
+        }
+        .buff-icon {
+            font-size: 1.2em;
+            filter: drop-shadow(0 0 3px var(--primary-glow));
+        }
+        .buff-timer {
+            font-size: 1em;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        /* Generic Overlay Screen (for workshop and game over) */
+        .overlay-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .overlay-screen.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .overlay-panel {
+            background: var(--surface-solid);
+            border: 2px solid var(--primary-glow);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+            display: flex;
+            flex-direction: column;
+        }
+        .overlay-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .overlay-header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            text-shadow: 0 0 5px var(--primary-glow);
+        }
+        
+        #game-over-screen .overlay-header h1 {
+            color: var(--accent-red);
+            text-shadow: 0 0 5px var(--accent-red);
+        }
+
+        #game-over-screen .overlay-panel {
+             border-color: var(--accent-red);
+             max-width: 800px;
+        }
+        
+        .overlay-content {
+            padding: 20px;
+        }
+        
+        #stats-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.2em;
+        }
+        #stats-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        #stats-list li:last-child {
+            border-bottom: none;
+        }
+        #stats-list li span {
+            font-weight: bold;
+            color: var(--accent-yellow);
+        }
+        
+        .overlay-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        #workshop-screen .overlay-panel {
+            height: 85vh;
+        }
+        
+        .currency-display {
+            font-size: 1.2em;
+            background: var(--background-main);
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+        #workshop-currency {
+            color: var(--accent-yellow);
+            font-weight: 700;
+        }
+        
+        /* Workshop Tabs */
+        .workshop-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .workshop-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .workshop-tab:hover {
+            background-color: var(--surface-transparent);
+        }
+        .workshop-tab.active {
+            border-bottom-color: var(--primary-glow);
+            color: var(--primary-glow);
+        }
+        .workshop-tab-content {
+            display: none;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .workshop-tab-content.active {
+            display: flex; /* Changed to flex for layout */
+        }
+        
+        /* Hangar (Module Customization) Layout */
+        #hangar-content {
+            flex-direction: row;
+            gap: 15px;
+            padding: 15px;
+        }
+        .parts-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-basis: 70%;
+        }
+        .parts-category {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .parts-category h3 {
+            margin: 0 0 10px 0;
+            color: var(--primary-glow);
+        }
+        .parts-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .part-item {
+            background: var(--surface-transparent);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: border-color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .part-item:hover {
+            transform: translateY(-2px);
+        }
+        .part-item.equipped {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+        .part-item.selected {
+             border-color: var(--primary-glow);
+        }
+        .part-item h4 { margin: 0; font-size: 1em; }
+        .part-item p { margin: 0; font-size: 0.8em; color: var(--text-secondary); }
+        .part-item .cost { color: var(--accent-yellow); font-weight: bold; }
+        
+        .glider-stats-panel {
+            flex-basis: 30%;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .glider-stats-panel h3 { margin: 0 0 15px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .glider-stats-list { list-style: none; padding: 0; margin: 0; }
+        .glider-stats-list li { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.9em; }
+        .glider-stats-list li .value { font-weight: bold; color: var(--primary-glow); }
+        
+        #workshop-start-btn, #btn-restart {
+            font-size: 1.2em;
+            padding: 12px 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <!-- The canvas where the game is rendered -->
+        <canvas id="game-canvas" width="1024" height="640" tabindex="0"></canvas>
+        
+        <div id="damage-overlay"></div>
+
+        <!-- Heads-Up Display -->
+        <div id="hud">
+            <div class="hud-top-bar">
+                <div class="hud-stat">
+                    <span class="label">Level</span>
+                    <span id="level-name" class="value"></span>
+                </div>
+                 <div class="hud-stat pilot-level-container">
+                    <span id="pilot-level" class="value">LVL 1</span>
+                    <div id="exp-bar-container"><div id="exp-bar"></div></div>
+                </div>
+                <div id="game-controls">
+                    <button id="btn-start" class="control-btn" style="display: none;">▶ Resume</button>
+                    <button id="btn-pause" class="control-btn">❚❚ Pause</button>
+                    <button id="btn-workshop" class="control-btn">🛠 Workshop</button>
+                    <button id="btn-mute" class="control-btn" aria-label="Toggle Sound">
+                        <svg id="icon-sound-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                        <svg id="icon-sound-off" viewBox="0 0 24 24" style="display: none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path></svg>
+                    </button>
+                </div>
+                 <div class="hud-stat">
+                    <span class="label">Health</span>
+                     <div class="health-bar-container">
+                        <div id="health-bar"></div>
+                    </div>
+                </div>
+                <div class="hud-stat">
+                    <span class="label">Energy</span>
+                     <div class="energy-bar-container">
+                        <div id="energy-bar"></div>
+                    </div>
+                </div>
+                <div class="hud-stat">
+                    <span class="label">Credits</span>
+                    <span id="credits-value" class="value">0</span>
+                </div>
+                <div id="hud-gadgets" class="hud-stat">
+                    <!-- Gadget status will be rendered here by JS -->
+                </div>
+            </div>
+            <div id="hud-buffs">
+                <!-- Active buffs will be rendered here by JS -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" aria-live="polite" aria-busy="true">
+        <div class="spinner"></div>
+        <span>Loading Aether...</span>
+    </div>
+
+    <!-- Workshop Screen -->
+    <div id="workshop-screen" class="overlay-screen">
+        <div class="overlay-panel">
+            <div class="overlay-header">
+                <h1>Pilot Workshop</h1>
+                <div class="currency-display">
+                    <span>Credits: </span>
+                    <span id="workshop-currency">0</span>
+                </div>
+            </div>
+            <div class="workshop-tabs">
+                <div id="tab-hangar" class="workshop-tab active">Ангар</div>
+                <!-- <div id="tab-skills" class="workshop-tab">Навыки</div> -->
+            </div>
+            <div id="hangar-content" class="workshop-tab-content active">
+                <div class="parts-selection">
+                    <div class="parts-category">
+                        <h3>Шасси</h3>
+                        <div class="parts-list" id="chassis-list"></div>
+                    </div>
+                    <div class="parts-category">
+                        <h3>Крылья</h3>
+                        <div class="parts-list" id="wings-list"></div>
+                    </div>
+                    <div class="parts-category">
+                        <h3>Двигатель</h3>
+                        <div class="parts-list" id="engine-list"></div>
+                    </div>
+                </div>
+                <div class="glider-stats-panel">
+                    <h3>Итоговые характеристики</h3>
+                    <ul class="glider-stats-list" id="glider-stats-list">
+                        <!-- Stats will be rendered here -->
+                    </ul>
+                </div>
+            </div>
+            <!-- <div id="skills-content" class="workshop-tab-content">
+                Skills content here
+            </div> -->
+            <div class="overlay-footer">
+                <button id="workshop-start-btn" class="control-btn">Launch Mission</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" class="overlay-screen">
+        <div class="overlay-panel">
+            <div class="overlay-header">
+                <h1>Миссия Провалена</h1>
+            </div>
+            <div class="overlay-content">
+                <h2>Статистика забега:</h2>
+                <ul id="stats-list">
+                    <li>Время в полете: <span id="stat-time">0s</span></li>
+                    <li>Собрано кредитов: <span id="stat-credits">0</span></li>
+                    <li>Уничтожено дронов: <span id="stat-drones">0</span></li>
+                    <li>Пройдено уровней: <span id="stat-levels">0</span></li>
+                </ul>
+            </div>
+            <div class="overlay-footer">
+                <button id="btn-restart" class="control-btn">Начать заново</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

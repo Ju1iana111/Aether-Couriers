@@ -1,0 +1,5 @@
+{
+  "name": "Aether Couriers Game Prototype",
+  "description": "A browser-based game prototype for 'Aether Couriers'. This engine loads pre-generated JSON, PNG, and Markdown assets to create a playable experience with simple physics and 2D graphics, using Web APIs like Canvas and IndexedDB.",
+  "requestFramePermissions": []
+}

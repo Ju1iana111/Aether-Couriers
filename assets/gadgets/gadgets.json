@@ -1,0 +1,7 @@
+[
+  { "id": "shield", "cooldown": 5, "duration": 2, "energy_cost": 15 },
+  { "id": "boost", "cooldown": 3, "impulse": 2.5, "energy_cost": 10 },
+  { "id": "grapple", "cooldown": 6, "range": 8, "energy_cost": 20 },
+  { "id": "microjet", "cooldown": 4, "impulse": 3.0, "energy_cost": 12 },
+  { "id": "fuel", "cooldown": 10, "energy_cost": 0 }
+]
