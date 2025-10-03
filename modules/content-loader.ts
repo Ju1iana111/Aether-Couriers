@@ -8,15 +8,26 @@ import {
 const CACHE_KEY_PREFIX = 'AETHER_CACHE_';
 const VERSION_KEY = 'AETHER_VERSION';
 
+function resolveAssetPath(path: string): string {
+  // Vite's import.meta.env.BASE_URL includes a leading and trailing slash (e.g., /repo/)
+  // We need to make sure we don't create double slashes.
+  const baseUrl = import.meta.env.BASE_URL;
+  // Ensure the final URL doesn't have a double slash if baseUrl is just "/"
+  if (baseUrl.endsWith('/') && path.startsWith('/')) {
+      return `${baseUrl}${path.substring(1)}`;
+  }
+  return `${baseUrl}${path}`;
+}
+
 // --- Core Caching Logic ---
 
 async function fetchAndCache<T>(url: string, manifestVersion: string, validator: (obj: any) => obj is T): Promise<T> {
+  const resolvedUrl = resolveAssetPath(url);
   const cachedVersion = localStorage.getItem(VERSION_KEY);
-  const cacheKey = `${CACHE_KEY_PREFIX}${url}`;
+  const cacheKey = `${CACHE_KEY_PREFIX}${resolvedUrl}`;
 
   if (cachedVersion !== manifestVersion) {
     console.log(`Manifest version changed from ${cachedVersion} to ${manifestVersion}. Clearing cache.`);
-    // In a real scenario, you might want a more nuanced cache clearing
     Object.keys(localStorage)
       .filter(key => key.startsWith(CACHE_KEY_PREFIX) || key === VERSION_KEY)
       .forEach(key => localStorage.removeItem(key));
@@ -31,57 +42,55 @@ async function fetchAndCache<T>(url: string, manifestVersion: string, validator:
         return parsedData;
       }
     } catch (e) {
-      console.warn(`Failed to parse cached data for ${url}. Refetching.`, e);
+      console.warn(`Failed to parse cached data for ${resolvedUrl}. Refetching.`, e);
       localStorage.removeItem(cacheKey);
     }
   }
 
   // Fetch new data
   try {
-    const response = await fetch(url);
+    const response = await fetch(resolvedUrl);
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status} for ${url}`);
+      throw new Error(`HTTP error! status: ${response.status} for ${resolvedUrl}`);
     }
     const text = await response.text();
     let data;
     try {
         data = JSON.parse(text);
     } catch (e) {
-        console.error(`Error parsing JSON from ${url}. The file content is likely not valid JSON. Raw text:`);
+        console.error(`Error parsing JSON from ${resolvedUrl}. The file content is likely not valid JSON. Raw text:`);
         console.error(text);
         throw e;
     }
 
     if (!validator(data)) {
-        // Find the first invalid item to help debugging
         if(Array.isArray(data)) {
-            const invalidItem = data.find(item => !validator([item])); // This is a trick; validator needs to handle single item arrays
-            console.error(`Validation failed for an item in ${url}:`, invalidItem);
+            const invalidItem = data.find(item => !validator([item]));
+            console.error(`Validation failed for an item in ${resolvedUrl}:`, invalidItem);
         }
-      throw new TypeError(`Invalid data structure for ${url}. Check the JSON content and content-types.ts.`);
+      throw new TypeError(`Invalid data structure for ${resolvedUrl}. Check the JSON content and content-types.ts.`);
     }
     
     localStorage.setItem(cacheKey, JSON.stringify(data));
     return data;
   } catch (error) {
-    console.error(`Failed to load or validate JSON from ${url}:`, error);
+    console.error(`Failed to load or validate JSON from ${resolvedUrl}:`, error);
     throw error;
   }
 }
 
 async function fetchTextAndCache(url: string, manifestVersion: string): Promise<string> {
-    // Simplified caching for text files like Markdown
+    const resolvedUrl = resolveAssetPath(url);
     const cachedVersion = localStorage.getItem(VERSION_KEY);
-    const cacheKey = `${CACHE_KEY_PREFIX}${url}`;
+    const cacheKey = `${CACHE_KEY_PREFIX}${resolvedUrl}`;
      if (cachedVersion !== manifestVersion) {
-        // version mismatch handled in JSON part, but good to have here too
         localStorage.removeItem(cacheKey);
      }
     const cachedData = localStorage.getItem(cacheKey);
     if(cachedData) return cachedData;
     
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP error fetching ${url}`);
+    const response = await fetch(resolvedUrl);
+    if (!response.ok) throw new Error(`HTTP error fetching ${resolvedUrl}`);
     const textData = await response.text();
     localStorage.setItem(cacheKey, textData);
     return textData;
@@ -91,9 +100,9 @@ async function fetchTextAndCache(url: string, manifestVersion: string): Promise<
 // --- Public Loader Functions ---
 
 export const loadManifest = async (): Promise<Manifest> => {
-    // Manifest is never cached, always fetched to get the latest version
-    const response = await fetch('manifest.json');
-    if (!response.ok) throw new Error("Could not load manifest.json!");
+    const manifestUrl = resolveAssetPath('/manifest.json');
+    const response = await fetch(manifestUrl);
+    if (!response.ok) throw new Error(`Could not load manifest.json from ${manifestUrl}!`);
     return await response.json();
 };
 
@@ -137,8 +146,6 @@ export const loadMelody = (url: string, version: string): Promise<Melody> =>
     fetchAndCache(url, version, isMelody);
   
 export const preloadIcons = async (): Promise<void> => {
-    // In this project, SVGs are embedded in HTML, so there's nothing to preload via fetch.
-    // This function serves as a placeholder for a real-world scenario where icons might be separate files.
     console.log("Icon preloading step (no-op for this project).");
     return Promise.resolve();
 };
