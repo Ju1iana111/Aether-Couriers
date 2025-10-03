@@ -1,18 +1,18 @@
 {
   "version": "1.0.4",
   "assets": {
-    "tutorial": "/tutorial.md",
-    "level": "/assets/levels/isle-137.json",
-    "gadgets": "/assets/gadgets/gadgets.json",
-    "challenges": "/assets/challenges/challenges.json",
-    "events": "/assets/events/events.json",
-    "glider": "/assets/gliders/aero-dart-500.json",
-    "physics": "/assets/configs/glider_physics.json",
-    "biomes": "/assets/biomes/biomes.json",
-    "player_progress": "/assets/progress/player_progress.json",
-    "melody": "/assets/audio/melody.json",
-    "chassis": "/assets/parts/chassis.json",
-    "wings": "/assets/parts/wings.json",
-    "engines": "/assets/parts/engines.json"
+    "tutorial": "tutorial.md",
+    "level": "assets/levels/isle-137.json",
+    "gadgets": "assets/gadgets/gadgets.json",
+    "challenges": "assets/challenges/challenges.json",
+    "events": "assets/events/events.json",
+    "glider": "assets/gliders/aero-dart-500.json",
+    "physics": "assets/configs/glider_physics.json",
+    "biomes": "assets/biomes/biomes.json",
+    "player_progress": "assets/progress/player_progress.json",
+    "melody": "assets/audio/melody.json",
+    "chassis": "assets/parts/chassis.json",
+    "wings": "assets/parts/wings.json",
+    "engines": "assets/parts/engines.json"
   }
 }
