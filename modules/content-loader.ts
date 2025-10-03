@@ -92,7 +92,7 @@ async function fetchTextAndCache(url: string, manifestVersion: string): Promise<
 
 export const loadManifest = async (): Promise<Manifest> => {
     // Manifest is never cached, always fetched to get the latest version
-    const response = await fetch('/manifest.json');
+    const response = await fetch('manifest.json');
     if (!response.ok) throw new Error("Could not load manifest.json!");
     return await response.json();
 };
