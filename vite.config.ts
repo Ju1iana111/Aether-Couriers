@@ -4,7 +4,7 @@ import { defineConfig, loadEnv } from 'vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '')
   return {
-    base: './', // <<< ВАЖНО для GitHub Pages
+    base: '/Aether-Couriers/', // <<< ВАЖНО для GitHub Pages
     server: {
       port: 3000,
       host: '0.0.0.0',
