@@ -1,27 +1,34 @@
 # CI for Aether-Couriers (Node + Vite)
-# Runs tests/build on PRs and pushes, and deploys dist to GitHub Pages on push to main.
-# Adjust node versions / matrix or remove deploy if you don't want automatic pages publishing.
+# Runs build on PRs and pushes, and deploys the artifact to GitHub Pages on push to main.
+name: Build and Deploy
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-name: CI / build & deploy
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  ci:
-    name: Build (Node ${{ matrix.node-version }})
+  build:
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x] # Use a single LTS version for the build job
 
     steps:
       - name: Checkout repository
@@ -39,40 +46,28 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          # Pass any necessary build-time environment variables here
           CI: true
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: dist-${{ matrix.node-version }}-${{ runner.os }}
+          # This will upload the contents of the 'dist' directory
           path: ./dist
 
-  deploy-pages:
+  deploy:
     name: Deploy to GitHub Pages
-    needs: ci
+    needs: build
     runs-on: ubuntu-latest
+    # Deploy only on a push to the main branch
     if: github.ref == 'refs/heads/main'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          CI: true
-
-      - name: Deploy ./dist to GitHub Pages (gh-pages branch)
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ./dist
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        # This action will automatically retrieve the artifact uploaded in the 'build' job
